@@ -1,0 +1,196 @@
+/* Reset & Base styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+/* Header */
+.header {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 30px;
+  margin-right: 8px;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #0d6efd;
+}
+
+.auth-btns button {
+  background: none;
+  border: 1px solid #0d6efd;
+  padding: 6px 12px;
+  color: #0d6efd;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-btns button:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+/* Search Area */
+.search-section {
+  background: #dbeeff;
+  padding: 40px 0;
+}
+
+.search-box {
+  background: white;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.tab-buttons button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.tab-buttons button.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.search-row {
+  display: flex;
+  gap: 8px;
+}
+
+.search-row input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-row button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 4px;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.filters select,
+.filters button {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Real Estate Section */
+.estate-section {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.estate-section h2 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.estate-nav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.estate-nav a {
+  text-decoration: none;
+  color: #444;
+}
+
+.estate-nav a.active {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+}
+
+.estate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.estate-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.estate-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: orange;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-bottom-left-radius: 5px;
+}
