@@ -83,7 +83,7 @@ const fetchData = async (month, year) => {
 }, [selectedDate]);
   return (
     <div className="dashboard-container">
-      <h2 style={{ fontSize: 24, fontWeight: 600, marginBottom: 24 }}>Mời chọn tháng để xem báo cáo :
+      <h2 style={{ fontSize: 24, fontWeight: 600, marginBottom: 24,color: "#1890ff" }}>Mời chọn tháng để xem báo cáo 
         < DatePicker
           picker="month"
           value={selectedDate}

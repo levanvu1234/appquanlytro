@@ -75,11 +75,18 @@ const updateBillApi = (id, updatedData) => {
   const URL_API = `/v1/api/bill/${id}`;
   return axios.put(URL_API, updatedData);
 };
+const PrintBillPdfApi = async (billId) => {
+  const URL_API = `/v1/api/bill/pdf/${billId}`;
+  return axios.get(URL_API, {
+    responseType: 'blob', // để nhận dữ liệu nhị phân PDF
+    
+  });
+};
 
 export{ //thay vi dung export default thi dung nhu nay de xuat ra nhieu function(api)
     createUserApi,LoginApi,GetUserApi,updateUserApi, 
     GetRoomApi,CreateRoomApi,updateRoomApi,
     GetBuildingApi, CreateBuildingApi,GetBuildingRevenueApi,
-    GetBillApi,CreateBillgApi,updateBillApi
+    GetBillApi,CreateBillgApi,updateBillApi,PrintBillPdfApi
 
 }

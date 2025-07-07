@@ -43,6 +43,6 @@ routerAPI.get('/bill', monthlyBillController.getAll);
 // routerAPI.get('/bill/summary/month', monthlyBillController.getSummaryByMonthYear);
 routerAPI.post('/bill', monthlyBillController.create);
 routerAPI.put("/bill/:id", monthlyBillController.update);
-
+// routerAPI.get('/bill/pdf/:id', monthlyBillController.printBillPDF);
 
 module.exports = routerAPI; //export default

@@ -8,8 +8,10 @@ import '../../style/header.css';
 const Header = () => {
   const navigate = useNavigate();
   const { auth, setAuth } = useContext(AuthContext);
+  
+  console.log("Auth", JSON.stringify(auth, null, 2));
   const [current, setCurrent] = useState('home');
-  console.log("Auth",auth)
+  
   const onClick = (e) => {
     setCurrent(e.key);
   };
@@ -54,7 +56,9 @@ const Header = () => {
   const rightMenuItems = [
     {
       label: (
-        <span className="welcome-text">Welcome {auth?.user?.name || ''}</span>
+        <span className="welcome-text">
+          Welcome {auth?.user?.name || ''} – {auth?.user?.phonenumber || ''}
+        </span>
       ),
       key: 'submenu',
       icon: <SettingOutlined />,
@@ -72,7 +76,7 @@ const Header = () => {
                           navigate('/');
                           setAuth({
                             isAuthenticated: false,
-                            user: { email: '', name: '' },
+                            user: { phonenumber: '', name: '' },
                           });
                           setCurrent('home');
                         }}

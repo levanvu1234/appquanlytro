@@ -20,15 +20,15 @@ const monthlyBillController = {
     }
   },
 
-  delete: async (req, res) => {
-    try {
-      const result = await monthlyBillService.delete(req.params.id);
-      if (!result) return res.status(404).json({ message: 'Không tìm thấy hóa đơn' });
-      res.json({ message: 'Xóa thành công' });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
+  // delete: async (req, res) => {
+  //   try {
+  //     const result = await monthlyBillService.delete(req.params.id);
+  //     if (!result) return res.status(404).json({ message: 'Không tìm thấy hóa đơn' });
+  //     res.json({ message: 'Xóa thành công' });
+  //   } catch (error) {
+  //     res.status(500).json({ error: error.message });
+  //   }
+  // },
 
   getById: async (req, res) => {
     try {
@@ -70,6 +70,18 @@ const monthlyBillController = {
       res.status(500).json({ error: error.message });
     }
   },
+  // //  In hóa đơn PDF
+  // printBillPDF: async (req, res) => {
+  //   try {
+  //     const billId = req.params.id;
+  //     await monthlyBillService.generateBillPDF(billId, res);
+  //   } catch (error) {
+  //     console.error("Lỗi in hóa đơn:", error);
+  //     res.status(500).json({ error: error.message });
+  //   }
+  // }
+
+
 };
 
 module.exports = monthlyBillController;

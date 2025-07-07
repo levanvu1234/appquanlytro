@@ -18,7 +18,7 @@ function App() {
         setAuth({
           isAuthenticated : true,
           user:{
-            email: res.email,
+            phonenumber: res.phonenumber,
             name: res.name
           }
         })

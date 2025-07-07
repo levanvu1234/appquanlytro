@@ -18,10 +18,10 @@ const createUserService = async (name,email,phonenumber,activity,password) => {
 
         let result = await User.create({
             name: name,
+            phonenumber: phonenumber,
             email: email,
             password: hashPassword,
             role: "User",
-            phonenumber: phonenumber,
             activity: activity,
 
         })

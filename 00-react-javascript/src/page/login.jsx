@@ -11,7 +11,7 @@ const LoginPage = () => {
     const onFinish = async(values) => {
         const {  phonenumber, password} =values;
         const res = await LoginApi( phonenumber, password);
-
+        console.log("🧪 API RES:", res);
         if(res && res.EC ===0){
             localStorage.setItem("access_token",res.access_token )
             notification.success({
@@ -20,11 +20,15 @@ const LoginPage = () => {
             });
             setAuth({   
                 isAuthenticated :true,
-                user:{
-                    phonenumber:res?.user?.phonenumber ?? "", //kiem tra phan hoi tu collection user co email thi email do neu ko set = null
-                    name:res?.user?.name ?? ""
+                user:{ 
+                    name:res?.user?.name ?? "",
+                    phonenumber:res?.user?.phonenumber ?? ""
                 }
-            })
+            });
+            console.log("✅ AUTH SET", {
+                phonenumber: res?.user?.phonenumber ?? "", 
+                name: res?.user?.name ?? ""
+                });
             navigate("/")
         }else{
             notification.error({

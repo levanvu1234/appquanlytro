@@ -17,6 +17,12 @@ instance.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
+  const contentType = response.headers['content-type'];
+  // ✅ Nếu là PDF hoặc blob, không động chạm
+  if (contentType && contentType.includes("application/pdf")) {
+    return response;
+  }
+
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     //if goi chi lay data, bo phan thua khoong can thiet

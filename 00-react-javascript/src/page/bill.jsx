@@ -13,14 +13,17 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import'../style/button.css';
+import { pdf } from '@react-pdf/renderer';
+import PrintableBill from './PrintableBill';
 import {
   GetBillApi,
   CreateBillgApi,
   GetRoomApi,
   updateBillApi,
+  PrintBillPdfApi,
 } from "../util/api";
 import '../style/room.css';
-import{ EditOutlined,DeleteOutlined,PlusOutlined  } from "@ant-design/icons";
+import{ EditOutlined,DeleteOutlined,PlusOutlined,PrinterOutlined  } from "@ant-design/icons";
 const MonthlyBillPage = () => {
   const [dataSource, setDataSource] = useState([]);
   //thêm phòng
@@ -81,6 +84,19 @@ const MonthlyBillPage = () => {
       notification.error({ message: "Lỗi khi xử lý hóa đơn" });
     }
   };
+
+ const handlePrintPdf = async (bill) => {
+  console.log("📄 Dữ liệu gửi in PDF:", bill); // 👈 Thêm dòng này
+  try {
+    const blob = await pdf(<PrintableBill bill={bill} />).toBlob();
+    const url = URL.createObjectURL(blob);
+    window.open(url);
+  } catch (err) {
+    console.error("❌ Lỗi tạo file PDF:", err);
+    notification.error({ message: "Lỗi khi tạo file PDF" });
+  }
+};
+
 
   // Lọc dữ liệu theo tìm kiếm và lọc phòng
   const filteredData = dataSource.filter((item) => {
@@ -156,20 +172,29 @@ const MonthlyBillPage = () => {
       title: "Hành động",
       key: "action",
       render: (_, record) => (
-        <Button
-          className="action-button edit"
-          onClick={() => {
-            setEditingBill(record);
-            form.setFieldsValue({
-              ...record,
-              room: record.room?._id,
-            });
-            setIsModalOpen(true);
-          }}
-          icon={<EditOutlined />}
-        >
-          Chỉnh sửa
-        </Button>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Button
+            className="action-button edit"
+            onClick={() => {
+              setEditingBill(record);
+              form.setFieldsValue({
+                ...record,
+                room: record.room?._id,
+              });
+              setIsModalOpen(true);
+            }}
+            icon={<EditOutlined />}
+          >
+            Chỉnh sửa
+          </Button>
+          <Button
+            type="dashed"
+            icon={<PrinterOutlined />}
+            onClick={() => handlePrintPdf(record)}
+          >
+            In PDF
+          </Button>
+        </div>
       ),
     },
   ];

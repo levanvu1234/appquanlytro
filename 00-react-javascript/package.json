@@ -13,12 +13,14 @@
   "dependencies": {
     "@ant-design/icons": "5.3.7",
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "@react-pdf/renderer": "^4.3.0",
     "antd": "5.19.0",
     "axios": "1.7.2",
     "dayjs": "^1.11.13",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.24.0"
+    "react-router-dom": "6.24.0",
+    "react-to-print": "^3.1.1"
   },
   "devDependencies": {
     "@types/react": "18.3.3",
