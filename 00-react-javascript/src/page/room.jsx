@@ -128,7 +128,7 @@ const RoomPage = () => {
         if (newRoom && newRoom._id) {
           notification.success({ message: "Thêm phòng thành công" });
           await fetchRooms(); // Đồng bộ lại danh sách
-          setDataSource((prev) => [...prev, newRoom]);
+          
         } else {
           throw new Error("Không nhận được _id từ server");
         }
@@ -279,8 +279,8 @@ const RoomPage = () => {
         >
           Xóa lọc
         </Button>
+        </div>
       </div>
-    </div>
 
       <Divider />
       <Table

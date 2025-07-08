@@ -48,6 +48,11 @@ const Header = () => {
             key: 'bill',
             icon: <CalendarOutlined />,
           },
+          {
+            label: <Link to="/device">Danh sách thiết bị</Link>,
+            key: 'device',
+            icon: <CalendarOutlined />,
+          },
         ]
       : []),
   ];

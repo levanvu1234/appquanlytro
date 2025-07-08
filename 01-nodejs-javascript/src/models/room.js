@@ -11,6 +11,10 @@ const roomSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user' // hoặc 'User' tùy theo bạn đặt tên model
   }],
+  devices: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Device'
+  }],
   startDate:Date,
   endDate: Date,
 }, { timestamps: true });

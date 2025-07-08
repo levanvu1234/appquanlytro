@@ -9,6 +9,7 @@ import LoginPage from './page/login.jsx'
 import RoomPage from './page/room.jsx'
 import BuildingPage from './page/building.jsx'
 import MonthlyBillPage from './page/bill.jsx'
+import DevicePage from './page/device.jsx'
 //tu "https://reactrouter.com/6.30.1/start/tutorial" huong trang sang cac file 
 import {
   createBrowserRouter,
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "bill",
         element: <MonthlyBillPage />
+      },
+      {
+        path: "device",
+        element: <DevicePage />
       },
     ]
   },

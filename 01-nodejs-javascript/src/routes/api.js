@@ -3,6 +3,7 @@ const { createUser,HandleLogin ,GetUser,GetAccount,updateUser} = require('../con
 const roomController = require('../controllers/roomController'); 
 const buildingController = require('../controllers/buildingController'); 
 const monthlyBillController = require('../controllers/monthlybillController');
+const deviceController = require('../controllers/devicecontroller');
 const auth = require('../midlleware/auth');
 const routerAPI = express.Router();
 
@@ -35,7 +36,7 @@ routerAPI.put("/room/:id", roomController.update);
 routerAPI.get("/building", buildingController.getAll);
 routerAPI.post("/building", buildingController.create);
 routerAPI.get("/building/report/revenue", buildingController.getRevenue);
-
+routerAPI.put("/building/:id", buildingController.update);
 
 //bill
 routerAPI.get('/bill', monthlyBillController.getAll);
@@ -44,5 +45,11 @@ routerAPI.get('/bill', monthlyBillController.getAll);
 routerAPI.post('/bill', monthlyBillController.create);
 routerAPI.put("/bill/:id", monthlyBillController.update);
 // routerAPI.get('/bill/pdf/:id', monthlyBillController.printBillPDF);
+
+//device
+routerAPI.post('/device', deviceController.create);
+routerAPI.get('/device', deviceController.getAll);
+routerAPI.put('/device/:id', deviceController.update);
+
 
 module.exports = routerAPI; //export default

@@ -1,6 +1,6 @@
 import { notification, Table, Modal, Form, Input, Button,Divider, Select } from "antd";
 import { useEffect, useState } from 'react';
-import { GetBuildingApi, CreateBuildingApi } from "../util/api";
+import { GetBuildingApi, CreateBuildingApi,updateBuildingApi } from "../util/api";
 import { PlusOutlined} from '@ant-design/icons';
 import '../style/room.css';
 import '../style/button.css'; // Import CSS styles for buttons
@@ -8,7 +8,15 @@ const BuildingPage = () => {
   const [dataSource, setDataSource] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-
+  //chỉnh sửa 
+  const [isEdit, setIsEdit] = useState(false);
+  const [editingBuildingId, setEditingBuildingId] = useState(null);
+  //lọc
+  const [filterAddress, setFilterAddress] = useState(undefined);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [addressOptions, setAddressOptions] = useState([]);
+  const [filterName, setFilterName] = useState(undefined);
   // Lấy danh sách tòa nhà
   const fetchBuildings = async () => {
     try {
@@ -16,53 +24,108 @@ const BuildingPage = () => {
        console.log("Dữ liệu từ API:", res);
       const buildings = Array.isArray(res) ? res : res.data || [];
       setDataSource(buildings);
+      setFilteredData(buildings); // Cập nhật dữ liệu đã lọc
+      const uniqueAddresses = [...new Set(buildings.map(b => b.address).filter(Boolean))];
+      setAddressOptions(uniqueAddresses);
     } catch (error) {
       console.error("Lỗi khi lấy danh sách tòa nhà:", error);
     }
   };
+//useeffect của bộ lọc 
+  useEffect(() => {
+    const filtered = dataSource.filter((building) => {
+      const matchesName = filterName
+        ? building.name === filterName
+        : true;
+
+      const matchesAddress = filterAddress
+        ? building.address?.toLowerCase().includes(filterAddress.toLowerCase())
+        : true;
+
+      return matchesName && matchesAddress;
+    });
+
+    setFilteredData(filtered);
+  }, [filterName, filterAddress, dataSource]);
 
   useEffect(() => {
     fetchBuildings();
   }, []);
-
   // Xử lý thêm tòa nhà
 const handleAddBuilding = () => {
   form.validateFields().then(async (values) => {
     try {
-      const res = await CreateBuildingApi(values);
-      console.log("📦 Kết quả từ API CreateBuildingApi:", res);
-
-      if (!res) throw new Error("Không có phản hồi từ server");
+      let res;
+      if (isEdit && editingBuildingId) {
+        res = await updateBuildingApi(editingBuildingId, values);
+      } else {
+        res = await CreateBuildingApi(values);
+      }
 
       const building = res?.data?.data || res?.data || res;
 
       if (building && building._id) {
-        notification.success({ message: "Thêm tòa nhà thành công" });
+        notification.success({
+          message: isEdit ? "Cập nhật tòa nhà thành công" : "Thêm tòa nhà thành công",
+        });
         form.resetFields();
         setIsModalOpen(false);
-        await fetchBuildings(); // luôn đồng bộ dữ liệu
+        setIsEdit(false);
+        setEditingBuildingId(null);
+        await fetchBuildings();
       } else {
         throw new Error("Không nhận được _id từ server");
       }
     } catch (error) {
-      notification.error({ message: "Thêm tòa nhà thất bại" });
+      notification.error({
+        message: isEdit ? "Cập nhật tòa nhà thất bại" : "Thêm tòa nhà thất bại",
+      });
       console.error(error);
     }
   });
 };
 
+const handleEditBuilding = (building) => {
+  setIsEdit(true);
+  setEditingBuildingId(building._id);
+  form.setFieldsValue({
+    name: building.name,
+    activity: building.activity,
+    address: building.address,
+  });
+  setIsModalOpen(true);
+};
 
   const columns = [
     { title: 'Mã tòa nhà', dataIndex: '_id' },
     { title: 'Tên tòa nhà', dataIndex: 'name' },
     { title: 'Hoạt động', dataIndex: 'activity' },
     { title: 'Địa chỉ', dataIndex: 'address' }, // thêm nếu cần
+    {
+      title: 'Hành động',
+      render: (_, record) => (
+        <Button
+          className="action-button edit"
+          onClick={() => handleEditBuilding(record)}
+        >
+          Chỉnh sửa
+        </Button>
+      ),
+    },
   ];
 
   return (
     <div className="room-page-container">
-      
-
+      <div
+      style={{
+        marginBottom: 20,
+        display: "flex",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        alignItems: "flex-start",
+        gap: 10,
+      }}
+    >
       <Button
         className="add-button"
         onClick={() => setIsModalOpen(true)}
@@ -71,18 +134,61 @@ const handleAddBuilding = () => {
       >
         Thêm tòa nhà
       </Button>
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+        <Select
+          placeholder="Lọc theo tên tòa nhà"
+          allowClear
+          style={{ width: 250 }}
+          value={filterName}
+          onChange={(value) => setFilterName(value ?? undefined)}
+        >
+          {[...new Set(dataSource.map((b) => b.name))].map((name) => (
+            <Select.Option key={name} value={name}>
+              {name}
+            </Select.Option>
+          ))}
+        </Select>
+        <Select
+          placeholder="Lọc theo địa chỉ"
+          allowClear
+          value={filterAddress}
+          onChange={(value) => setFilterAddress(value)}
+          style={{ width: 250 }}
+        >
+          {addressOptions.map((addr) => (
+            <Select.Option key={addr} value={addr}>
+              {addr}  
+            </Select.Option>
+          ))}
+        </Select>
+        <Button
+          type="primary"
+          danger
+          onClick={() => {
+            setFilterName(undefined);
+            setFilterAddress(undefined);
+          }}
+        >
+          Xóa lọc
+        </Button>
+        </div>
+      </div>
       <Divider />
       <Table
-        dataSource={dataSource}
+        dataSource={filteredData}
         columns={columns}
         rowKey="_id"
         pagination={{ pageSize: 5 }}
       />
 
       <Modal
-        title="Thêm tòa nhà mới"
+        title={isEdit ? "Chỉnh sửa tòa nhà" : "Thêm tòa nhà mới"}
         open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={() => {
+          setIsModalOpen(false);
+          setIsEdit(false);
+          setEditingBuildingId(null);
+        }}
         onOk={handleAddBuilding}
         okText="Lưu"
         cancelText="Hủy"
@@ -119,6 +225,4 @@ const handleAddBuilding = () => {
     </div>
   );
 };
-
-// ✅ Xuất đúng tên component
 export default BuildingPage;

@@ -59,7 +59,10 @@ const GetBuildingRevenueApi = async () => {
     return [];
   }
 };
-
+const updateBuildingApi = (id, updatedData) => {
+  const URL_API = `/v1/api/building/${id}`;
+  return axios.put(URL_API, updatedData);
+};
 
 //bill
 const GetBillApi=() =>{
@@ -82,11 +85,25 @@ const PrintBillPdfApi = async (billId) => {
     
   });
 };
+//device
+const GetDeviceApi=() =>{
+    const URL_API="/v1/api/device";
 
+    return axios.get(URL_API)
+}
+const CreateDeviceApi = async (deviceData) => {
+    const URL_API = "/v1/api/device";
+    return axios.post(URL_API, deviceData);
+};
+const updateDeviceApi = (id, updatedData) => {
+  const URL_API = `/v1/api/device/${id}`;
+  return axios.put(URL_API, updatedData);
+};
 export{ //thay vi dung export default thi dung nhu nay de xuat ra nhieu function(api)
     createUserApi,LoginApi,GetUserApi,updateUserApi, 
     GetRoomApi,CreateRoomApi,updateRoomApi,
-    GetBuildingApi, CreateBuildingApi,GetBuildingRevenueApi,
-    GetBillApi,CreateBillgApi,updateBillApi,PrintBillPdfApi
+    GetBuildingApi, CreateBuildingApi,GetBuildingRevenueApi,updateBuildingApi,
+    GetBillApi,CreateBillgApi,updateBillApi,PrintBillPdfApi,
+    GetDeviceApi,CreateDeviceApi,updateDeviceApi
 
 }
